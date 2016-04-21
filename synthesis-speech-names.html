@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Audio Exploration Javascript</title>
+</head>
+
+<body>
+	<script>
+		'use strict';
+
+		let verifyAudio = () => {
+		  return (window && window.speechSynthesis && typeof window.speechSynthesis.speak === "function" && typeof SpeechSynthesisUtterance === "function");
+		};
+
+		if (!verifyAudio()) {
+		  alert("NO Support");
+		  throw new Error("NO support");
+		}
+
+		let it = 0;
+
+		window.speechSynthesis.onvoiceschanged = () => {
+		  let voices = window.speechSynthesis.getVoices();
+		  let foobar = voices[Math.floor(Math.random() * voices.length)];
+		  console.log(`
+						Here we go	| Meet one voice | Voices total:
+						again. One	| at random:     | ${voices.length}.
+				        more rounds	| ${foobar.name}
+				        ${it++}.
+				        
+				        Voice:`, foobar);
+
+		  let talk = (voice) => {
+			let speech = new SpeechSynthesisUtterance(voice.name);
+			speech.voice = voice;
+			window.speechSynthesis.speak(speech);
+		  };
+
+		  if (it === 1) {
+			voices.forEach(talk);
+		  }
+		};
+
+
+	</script>
+</body>
+
+</html>
